@@ -14,11 +14,13 @@ class MethodChannelCustomTabs extends CustomTabsPlatform {
     String urlString, {
     CustomTabsOption? customTabsOption,
     SafariViewControllerOption? safariVCOption,
+    List<String>? urlsToClose,
   }) {
     final args = <String, dynamic>{
       'url': urlString,
       'customTabsOption': customTabsOption?.toMap() ?? <String, dynamic>{},
-      'safariVCOption': safariVCOption?.toMap() ?? <String, dynamic>{}
+      'safariVCOption': safariVCOption?.toMap() ?? <String, dynamic>{},
+      'urlsToClose': urlsToClose,
     };
     return _channel.invokeMethod('launch', args);
   }

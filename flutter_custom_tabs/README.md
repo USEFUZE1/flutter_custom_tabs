@@ -38,7 +38,7 @@ Open the web URL like `url_launcher`.
 It is also possible to customize look & feel by specifying options for each Platform.
 - Android: [`CustomTabsOption`](https://github.com/droibit/flutter_custom_tabs_platform_interface/blob/develop/lib/src/custom_tabs_option.dart)
 - iOS: [`SafariViewControllerOption`](https://github.com/droibit/flutter_custom_tabs_platform_interface/blob/develop/lib/src/safari_view_controller_option.dart)
-
+- for iOS you can specify urlsToClose - list of urls for closing SafariViewController (dont forget to specivy scheme in plist)
 #### Example
 
 ``` dart

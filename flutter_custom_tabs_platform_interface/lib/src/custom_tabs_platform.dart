@@ -34,6 +34,7 @@ abstract class CustomTabsPlatform extends PlatformInterface {
     String urlString, {
     CustomTabsOption? customTabsOption,
     SafariViewControllerOption? safariVCOption,
+    List<String>? urlsToClose,
   }) {
     throw UnimplementedError('launch() has not been implemented.');
   }

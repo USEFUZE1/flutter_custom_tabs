@@ -4,8 +4,12 @@ import UIKit
 
 private let keyURL = "url"
 private let keyOption = "safariVCOption"
+private let keyUrlsToClose = "urlsToClose"
 
-public class CustomTabsPlugin: NSObject, FlutterPlugin {
+public class CustomTabsPlugin: NSObject, FlutterPlugin, SFSafariViewControllerDelegate {
+    var urlsToClose : [String]?=nil
+    var safariDisplayed = false
+    
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(
             name: "plugins.flutter.droibit.github.io/custom_tabs",
@@ -13,6 +17,7 @@ public class CustomTabsPlugin: NSObject, FlutterPlugin {
         )
         let instance = CustomTabsPlugin()
         registrar.addMethodCallDelegate(instance, channel: channel)
+        registrar.addApplicationDelegate(instance)
     }
     
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
@@ -21,6 +26,8 @@ public class CustomTabsPlugin: NSObject, FlutterPlugin {
             let arguments = call.arguments as! [String: Any]
             let url = arguments[keyURL] as! String
             let option = arguments[keyOption] as! [String: Any]
+            urlsToClose = arguments[keyUrlsToClose] as? [String]
+            
             present(withURL: url, option: option, result: result)
         default:
             result(FlutterMethodNotImplemented)
@@ -31,6 +38,8 @@ public class CustomTabsPlugin: NSObject, FlutterPlugin {
         if #available(iOS 9.0, *) {
             if let topViewController = UIWindow.keyWindow?.topViewController() {
                 let safariViewController = SFSafariViewController.make(url: URL(string: url)!, option: option)
+                safariViewController.delegate = self
+                safariDisplayed = true
                 topViewController.present(safariViewController, animated: true) {
                     result(nil)
                 }
@@ -38,6 +47,23 @@ public class CustomTabsPlugin: NSObject, FlutterPlugin {
         } else {
             result(FlutterMethodNotImplemented)
         }
+    }
+    
+    public func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+        self.safariDisplayed = false
+    }
+    
+    public func application(
+        _ application: UIApplication,
+        open url: URL,
+        options: [UIApplication.OpenURLOptionsKey : Any] = [:]
+    ) -> Bool {
+        if (safariDisplayed && (urlsToClose?.contains(url.absoluteString) == true)){
+            UIWindow.keyWindow?.topViewController()?.navigationController?.popViewController(animated: true)
+            UIWindow.keyWindow?.topViewController()?.dismiss(animated: true, completion: nil)
+            return true
+        }
+        return false
     }
 }
 
@@ -49,7 +75,7 @@ private extension UIWindow {
             return UIApplication.shared.keyWindow
         }
     }
-
+    
     func topViewController() -> UIViewController? {
         var topViewController: UIViewController? = rootViewController
         while true {
