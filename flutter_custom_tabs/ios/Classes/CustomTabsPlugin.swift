@@ -61,7 +61,6 @@ public class CustomTabsPlugin: NSObject, FlutterPlugin, SFSafariViewControllerDe
         if (safariDisplayed && (urlsToClose?.contains(url.absoluteString) == true)){
             UIWindow.keyWindow?.topViewController()?.navigationController?.popViewController(animated: true)
             UIWindow.keyWindow?.topViewController()?.dismiss(animated: true, completion: nil)
-            return true
         }
         return false
     }
