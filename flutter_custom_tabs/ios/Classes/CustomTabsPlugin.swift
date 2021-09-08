@@ -58,9 +58,14 @@ public class CustomTabsPlugin: NSObject, FlutterPlugin, SFSafariViewControllerDe
         open url: URL,
         options: [UIApplication.OpenURLOptionsKey : Any] = [:]
     ) -> Bool {
-        if (safariDisplayed && (urlsToClose?.contains(url.absoluteString) == true)){
-            UIWindow.keyWindow?.topViewController()?.navigationController?.popViewController(animated: true)
-            UIWindow.keyWindow?.topViewController()?.dismiss(animated: true, completion: nil)
+        if (safariDisplayed && urlsToClose != nil){
+            for urlToClose in urlsToClose!{
+                if (url.absoluteString.contains(urlToClose)){
+                    UIWindow.keyWindow?.topViewController()?.navigationController?.popViewController(animated: true)
+                    UIWindow.keyWindow?.topViewController()?.dismiss(animated: true, completion: nil)
+                    return false
+                }
+            }
         }
         return false
     }
