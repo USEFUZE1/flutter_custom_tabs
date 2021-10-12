@@ -3,6 +3,8 @@ description: Flutter plugin for seamlessly displaying web content using Chrome C
 version: 1.0.3
 homepage: https://github.com/droibit/flutter_custom_tabs
 
+publish_to: "none"
+
 environment:
   sdk: ">=2.12.0 <3.0.0"
   flutter: ">=1.20.0"
@@ -12,12 +14,14 @@ dependencies:
     sdk: flutter
   flutter_custom_tabs_platform_interface:
     git:
-      url: https://github.com/AntonHomeniuk/flutter_custom_tabs.git
-      path: ./flutter_custom_tabs_platform_interface/
+      url: https://github.com/neohelden/flutter_custom_tabs
+      path: flutter_custom_tabs_platform_interface
+      ref: d91fd5b42beb8bf377f637ef92bda1077228a8d0
   flutter_custom_tabs_web:
-    git:
-      url: https://github.com/AntonHomeniuk/flutter_custom_tabs.git
-      path: ./flutter_custom_tabs_web/
+      git:
+        url: https://github.com/neohelden/flutter_custom_tabs
+        path: flutter_custom_tabs_web
+        ref: feca3ae75f2908f137289ac51aa6b2efecc07d83
   meta: ^1.3.0
 
 dev_dependencies:
