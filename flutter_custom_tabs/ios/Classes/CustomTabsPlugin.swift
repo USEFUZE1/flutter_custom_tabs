@@ -52,7 +52,17 @@ public class CustomTabsPlugin: NSObject, FlutterPlugin, SFSafariViewControllerDe
     public func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
         self.safariDisplayed = false
     }
-    
+
+    public func safariViewController(_ controller: SFSafariViewController, initialLoadDidRedirectTo: URL) {
+        let urlString = initialLoadDidRedirectTo.absoluteString
+        for urlToClose in urlsToClose!{
+            if (urlString.contains(urlToClose)){
+                UIWindow.keyWindow?.topViewController()?.navigationController?.popViewController(animated: true)
+                UIWindow.keyWindow?.topViewController()?.dismiss(animated: true, completion: nil)
+            }
+        }
+    }
+
     public func application(
         _ application: UIApplication,
         open url: URL,
